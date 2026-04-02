@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hevoris — Nettoyage toiture & façade par drone</title>
+  <meta name="description" content="Hevoris, entreprise spécialisée dans le nettoyage de toitures et façades par drone en Auvergne-Rhône-Alpes. Devis gratuit sous 24h." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark:  #042C53;
+      --blue-main:  #185FA5;
+      --blue-mid:   #378ADD;
+      --blue-light: #85B7EB;
+      --blue-pale:  #E6F1FB;
+      --blue-xpale: #f0f7ff;
+      --white:      #ffffff;
+      --gray-text:  #4a4a52;
+      --gray-muted: #8a8a94;
+      --border:     rgba(55,138,221,0.18);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--gray-text); overflow-x: hidden; }
+    h1, h2, h3, h4, .logo { font-family: 'Syne', sans-serif; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-size: 22px; font-weight: 700; color: var(--blue-main); letter-spacing: 3px; }
+    .logo span { color: var(--blue-mid); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--gray-text); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--blue-main); }
+    .nav-cta {
+      background: var(--blue-main); color: var(--white);
+      font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600;
+      padding: 9px 22px; border-radius: 8px; border: none;
+      cursor: pointer; text-decoration: none; transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--blue-main); border-radius: 2px; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--blue-dark) 0%, var(--blue-main) 45%, var(--blue-mid) 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 8rem 5% 5rem; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -100px; right: -100px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: rgba(133,183,235,0.12); pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -80px; left: -80px;
+      width: 350px; height: 350px; border-radius: 50%;
+      background: rgba(255,255,255,0.05); pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.9); font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase; padding: 6px 18px; border-radius: 40px;
+      margin-bottom: 2rem; animation: fadeUp .6s ease both;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: #7ee8a2; flex-shrink: 0;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 68px); font-weight: 700; color: var(--white);
+      line-height: 1.1; margin-bottom: 1.5rem; max-width: 780px;
+      animation: fadeUp .7s .1s ease both;
+    }
+    .hero h1 em { font-style: normal; color: var(--blue-light); }
+    .hero-desc {
+      font-size: 17px; color: rgba(255,255,255,0.78);
+      max-width: 520px; line-height: 1.75; margin-bottom: 2.5rem;
+      animation: fadeUp .7s .2s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 4rem; animation: fadeUp .7s .3s ease both;
+    }
+    .btn-primary {
+      background: var(--white); color: var(--blue-main);
+      font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
+      padding: 13px 30px; border-radius: 8px; border: none;
+      cursor: pointer; text-decoration: none; transition: transform .15s, box-shadow .15s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+    .btn-secondary {
+      background: transparent; color: var(--white);
+      font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 500;
+      padding: 13px 30px; border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      cursor: pointer; text-decoration: none; transition: background .2s, border-color .2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.8); }
+    .hero-stats {
+      display: flex; gap: 48px; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp .7s .4s ease both;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--white); }
+    .hero-stat-label { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 2px; }
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,.4); font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+      animation: fadeUp 1s .8s ease both;
+    }
+    .scroll-hint::after {
+      content: ''; width: 1px; height: 36px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.4), transparent);
+      animation: scrollPulse 1.8s ease-in-out infinite;
+    }
+
+    /* SECTIONS */
+    section { padding: 6rem 5%; }
+    .section-label {
+      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--blue-mid); margin-bottom: 1rem;
+    }
+    .section-title { font-size: clamp(26px, 4vw, 40px); font-weight: 700; color: var(--blue-dark); line-height: 1.2; margin-bottom: 1rem; }
+    .section-sub { font-size: 16px; color: var(--gray-muted); max-width: 480px; line-height: 1.7; }
+
+    /* SERVICES */
+    #services { background: var(--blue-xpale); }
+    .services-header { max-width: 1100px; margin: 0 auto 3.5rem; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
+    .service-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 2rem;
+      transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--blue-main), var(--blue-mid)); opacity: 0; transition: opacity .2s;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(24,95,165,.12); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon { width: 52px; height: 52px; background: var(--blue-pale); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
+    .service-icon svg { width: 24px; height: 24px; stroke: var(--blue-main); fill: none; stroke-width: 1.8; }
+    .service-card h3 { font-size: 18px; font-weight: 700; color: var(--blue-dark); margin-bottom: .6rem; }
+    .service-card p { font-size: 14px; color: var(--gray-muted); line-height: 1.7; margin-bottom: 1.2rem; }
+    .service-price { display: inline-block; background: var(--blue-pale); color: var(--blue-main); font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; padding: 5px 14px; border-radius: 6px; }
+
+    /* AVANTAGES */
+    #avantages { background: var(--white); }
+    .avantages-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .avantages-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2.5rem; }
+    .av-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .av-num { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--blue-light); min-width: 28px; margin-top: 2px; }
+    .av-item h4 { font-size: 15px; font-weight: 600; color: var(--blue-dark); margin-bottom: 3px; }
+    .av-item p { font-size: 14px; color: var(--gray-muted); line-height: 1.6; }
+    .certs-box { background: var(--blue-xpale); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; }
+    .certs-box h3 { font-size: 17px; font-weight: 700; color: var(--blue-dark); margin-bottom: 1.5rem; }
+    .certs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cert-badge { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; align-items: center; gap: 10px; }
+    .cert-check { width: 22px; height: 22px; background: var(--blue-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .cert-check svg { width: 12px; height: 12px; stroke: var(--blue-main); stroke-width: 2.5; fill: none; }
+    .cert-badge span { font-size: 13px; font-weight: 500; color: var(--blue-dark); }
+    .partner-note { margin-top: 1.5rem; padding: 1rem; background: var(--blue-pale); border-radius: 10px; }
+    .partner-note p { font-size: 13px; color: var(--blue-main); line-height: 1.6; }
+
+    /* ZONE */
+    #zone { background: var(--blue-dark); }
+    .zone-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+    .zone-inner .section-label { color: var(--blue-light); }
+    .zone-inner .section-title { color: var(--white); }
+    .zone-inner .section-sub { color: rgba(255,255,255,.55); margin: 0 auto 3rem; }
+    .zones-grid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .zone-tag { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); color: rgba(255,255,255,.85); font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 500; padding: 10px 24px; border-radius: 40px; transition: background .2s; }
+    .zone-tag:hover { background: rgba(255,255,255,.14); }
+    .zone-note { margin-top: 2rem; font-size: 14px; color: rgba(255,255,255,.4); }
+
+    /* DEVIS */
+    #devis { background: var(--blue-xpale); }
+    .devis-inner { max-width: 700px; margin: 0 auto; }
+    .devis-header { margin-bottom: 2.5rem; }
+
+    /* CALCULATEUR */
+    .calc-card { background: var(--white); border: 2px solid var(--blue-mid); border-radius: 20px; padding: 2rem; margin-bottom: 1.5rem; }
+    .calc-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--blue-dark); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px; }
+    .calc-title::before { content: ''; width: 10px; height: 10px; background: var(--blue-mid); border-radius: 50%; flex-shrink: 0; }
+    .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.2rem; }
+    .calc-group { display: flex; flex-direction: column; gap: 6px; }
+    .calc-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--blue-main); }
+    .calc-group select, .calc-group input {
+      border: 1px solid var(--border); border-radius: 8px; padding: 11px 14px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--gray-text);
+      background: var(--blue-xpale); outline: none; transition: border-color .2s, background .2s; width: 100%;
+    }
+    .calc-group select:focus, .calc-group input:focus { border-color: var(--blue-mid); background: var(--white); }
+    .calc-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
+    .calc-checkbox { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: var(--gray-text); user-select: none; }
+    .calc-checkbox input[type="checkbox"] { display: none; }
+    .checkbox-box { width: 20px; height: 20px; border: 1.5px solid var(--blue-light); border-radius: 5px; background: var(--blue-xpale); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s; }
+    .calc-checkbox input:checked + .checkbox-box { background: var(--blue-main); border-color: var(--blue-main); }
+    .calc-checkbox input:checked + .checkbox-box::after { content: ''; width: 5px; height: 9px; border-right: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(45deg) translate(-1px,-1px); display: block; }
+    .calc-placeholder { text-align: center; padding: 1.5rem; color: var(--gray-muted); font-size: 14px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .calc-result { background: linear-gradient(135deg, var(--blue-dark), var(--blue-main)); border-radius: 14px; padding: 1.5rem 2rem; text-align: center; animation: fadeUp .4s ease both; }
+    .calc-result-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: .5rem; }
+    .calc-result-price { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 700; color: var(--white); margin-bottom: .5rem; }
+    .calc-result-detail { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.7; margin-bottom: .5rem; }
+    .calc-result-note { font-size: 12px; color: rgba(255,255,255,.45); font-style: italic; }
+
+    /* FORMULAIRE */
+    .form-card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; }
+    .form-card-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--blue-dark); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-group label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--blue-main); }
+    .form-group input, .form-group select, .form-group textarea {
+      border: 1px solid var(--border); border-radius: 8px; padding: 11px 14px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--gray-text);
+      background: var(--blue-xpale); outline: none; transition: border-color .2s, background .2s; width: 100%;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue-mid); background: var(--white); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .btn-submit { width: 100%; background: var(--blue-main); color: var(--white); font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: .5px; padding: 15px; border-radius: 10px; border: none; cursor: pointer; margin-top: 8px; transition: background .2s, transform .15s; }
+    .btn-submit:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .btn-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+    .form-note { text-align: center; font-size: 13px; color: var(--gray-muted); margin-top: 1rem; }
+
+    /* FOOTER */
+    footer { background: var(--blue-dark); padding: 3rem 5%; border-top: 1px solid rgba(255,255,255,.08); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--white); letter-spacing: 3px; }
+    .footer-info { text-align: center; }
+    .footer-info p { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.8; }
+    .footer-info a { color: var(--blue-light); text-decoration: none; }
+    .footer-copy { margin-top: 6px; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,.4); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--white); }
+
+    /* NOTIFICATION */
+    .notif { position: fixed; bottom: 2rem; right: 2rem; color: var(--white); font-family: 'Syne', sans-serif; font-size: 14px; padding: 14px 22px; border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,.2); transform: translateY(80px); opacity: 0; transition: transform .4s ease, opacity .4s ease; z-index: 999; }
+    .notif.show { transform: translateY(0); opacity: 1; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scrollPulse { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero h1 { font-size: 34px; }
+      .hero-stats { gap: 28px; }
+      .avantages-inner, .calc-row, .form-row { grid-template-columns: 1fr; }
+      .avantages-inner { gap: 2.5rem; }
+      .certs-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+      .footer-info { order: 2; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="notif" id="notif"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">HEVO<span>RIS</span></div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#avantages">Pourquoi nous</a></li>
+      <li><a href="#zone">Zone</a></li>
+      <li><a href="#devis">Contact</a></li>
+    </ul>
+    <a href="#devis" class="nav-cta">Devis gratuit</a>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">Nettoyage par drone — Auvergne-Rhône-Alpes</div>
+    <h1>Toitures & façades propres,<br><em>sans échafaudage</em></h1>
+    <p class="hero-desc">Hevoris utilise des drones professionnels certifiés pour nettoyer vos toitures et façades rapidement, en toute sécurité et à moindre coût.</p>
+    <div class="hero-btns">
+      <a href="#devis" class="btn-primary">Demander un devis gratuit</a>
+      <a href="#services" class="btn-secondary">Découvrir nos services</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">60 m</div><div class="hero-stat-label">Hauteur max</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">7 €/m²</div><div class="hero-stat-label">Tarif indicatif</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">100%</div><div class="hero-stat-label">Sans échafaudage</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">24h</div><div class="hero-stat-label">Réponse devis</div></div>
+    </div>
+    <div class="scroll-hint">Découvrir</div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-header fade-in">
+      <div class="section-label">Nos prestations</div>
+      <h2 class="section-title">Ce que nous faisons</h2>
+      <p class="section-sub">Des solutions adaptées aux particuliers et professionnels de la région.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <h3>Nettoyage toiture</h3>
+        <p>Élimination complète de mousse, lichens et algues sur tuiles, ardoises et bac acier. Le drone projette le produit de façon précise sans abîmer votre toiture.</p>
+        <span class="service-price">À partir de 7 €/m²</span>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
+        <h3>Nettoyage façade</h3>
+        <p>Bâtiments, entrepôts, maisons individuelles — murs en pierre, enduit ou crépi. Résultat impeccable sans nacelle ni montage d'échafaudage.</p>
+        <span class="service-price">À partir de 8 €/m²</span>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <h3>Traitement préventif</h3>
+        <p>Application d'un traitement hydrofuge ou anti-mousse après nettoyage pour protéger durablement vos surfaces et éviter la recolonisation rapide.</p>
+        <span class="service-price">+2 €/m² en option</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVANTAGES -->
+  <section id="avantages">
+    <div class="avantages-inner">
+      <div class="fade-in">
+        <div class="section-label">Pourquoi Hevoris</div>
+        <h2 class="section-title">Le drone,<br>c'est l'avenir</h2>
+        <div class="avantages-list">
+          <div class="av-item"><span class="av-num">01</span><div><h4>Zéro échafaudage</h4><p>Pas de montage, pas de risque de chute, accès immédiat jusqu'à 60 m de hauteur.</p></div></div>
+          <div class="av-item"><span class="av-num">02</span><div><h4>Rapide & efficace</h4><p>100 m² traités en une fraction du temps d'une intervention traditionnelle.</p></div></div>
+          <div class="av-item"><span class="av-num">03</span><div><h4>Précision maximale</h4><p>Projection ciblée avec des produits adaptés à chaque surface, sans gaspillage.</p></div></div>
+          <div class="av-item"><span class="av-num">04</span><div><h4>Prix compétitif</h4><p>Moins de main-d'œuvre, moins de matériel lourd : vous bénéficiez directement des économies.</p></div></div>
+        </div>
+      </div>
+      <div class="certs-box fade-in">
+        <h3>Certifications & garanties</h3>
+        <div class="certs-grid">
+          <div class="cert-badge"><div class="cert-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div><span>Certifié A1/A2/A3</span></div>
+          <div class="cert-badge"><div class="cert-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div><span>Certifié CATS</span></div>
+          <div class="cert-badge"><div class="cert-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div><span>Drone IP64</span></div>
+          <div class="cert-badge"><div class="cert-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div><span>RC Pro & Drone</span></div>
+          <div class="cert-badge"><div class="cert-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div><span>STS-01 / STS-02</span></div>
+          <div class="cert-badge"><div class="cert-check"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div><span>SARL assurée</span></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZONE -->
+  <section id="zone">
+    <div class="zone-inner fade-in">
+      <div class="section-label">Déplacements</div>
+      <h2 class="section-title">Zone d'intervention</h2>
+      <p class="section-sub">Nous intervenons dans toute la région Auvergne-Rhône-Alpes et ses alentours.</p>
+      <div class="zones-grid">
+        <div class="zone-tag">Saint-Étienne</div>
+        <div class="zone-tag">Lyon</div>
+        <div class="zone-tag">Roanne</div>
+        <div class="zone-tag">Clermont-Ferrand</div>
+        <div class="zone-tag">Loire (42)</div>
+        <div class="zone-tag">Rhône (69)</div>
+        <div class="zone-tag">Puy-de-Dôme (63)</div>
+        <div class="zone-tag">Et alentours</div>
+      </div>
+      <p class="zone-note">Une intervention hors zone ? Contactez-nous, nous étudions chaque demande.</p>
+    </div>
+  </section>
+
+  <!-- DEVIS + CALCULATEUR -->
+  <section id="devis">
+    <div class="devis-inner">
+      <div class="devis-header fade-in">
+        <div class="section-label">Contact</div>
+        <h2 class="section-title">Calculez votre devis instantanément</h2>
+        <p class="section-sub">Obtenez une estimation immédiate, puis envoyez votre demande — réponse sous 24h.</p>
+      </div>
+
+      <!-- CALCULATEUR -->
+      <div class="calc-card fade-in">
+        <div class="calc-title">Estimateur de prix</div>
+        <div class="calc-row">
+          <div class="calc-group">
+            <label class="calc-label">Type de prestation</label>
+            <select id="calc-prestation" onchange="calculer()">
+              <option value="toiture">Nettoyage toiture</option>
+              <option value="facade">Nettoyage façade</option>
+              <option value="les-deux">Toiture + façade</option>
+            </select>
+          </div>
+          <div class="calc-group">
+            <label class="calc-label">Surface à nettoyer (m²)</label>
+            <input type="number" id="calc-surface" placeholder="ex : 120" min="1" oninput="calculer()" />
+          </div>
+        </div>
+        <div class="calc-options">
+          <label class="calc-checkbox">
+            <input type="checkbox" id="calc-traitement" onchange="calculer()" />
+            <span class="checkbox-box"></span>
+            <span>Ajouter le traitement préventif <strong>+2 €/m²</strong></span>
+          </label>
+          <label class="calc-checkbox">
+            <input type="checkbox" id="calc-deplacement" onchange="calculer()" />
+            <span class="checkbox-box"></span>
+            <span>Distance supérieure à 50 km <strong>(déplacement sur devis)</strong></span>
+          </label>
+        </div>
+        <div class="calc-result" id="calc-result" style="display:none;">
+          <div class="calc-result-label">Estimation de votre devis</div>
+          <div class="calc-result-price" id="calc-price"></div>
+          <div class="calc-result-detail" id="calc-detail"></div>
+          <div class="calc-result-note" id="calc-note"></div>
+        </div>
+        <div class="calc-placeholder" id="calc-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#85B7EB" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          <p>Renseignez la surface pour obtenir votre estimation immédiate</p>
+        </div>
+      </div>
+
+      <!-- FORMULAIRE -->
+      <div class="form-card fade-in">
+        <div class="form-card-title">Confirmer ma demande de devis</div>
+        <form id="devis-form" action="https://formspree.io/f/maqldqqe" method="POST">
+          <div class="form-row">
+            <div class="form-group"><label>Prénom *</label><input type="text" name="prenom" placeholder="Jean" required /></div>
+            <div class="form-group"><label>Nom *</label><input type="text" name="nom" placeholder="Dupont" required /></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Email *</label><input type="email" name="email" placeholder="jean@email.com" required /></div>
+            <div class="form-group"><label>Téléphone *</label><input type="tel" name="tel" placeholder="06 00 00 00 00" required /></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Code postal *</label><input type="text" name="cp" placeholder="42000" required /></div>
+            <div class="form-group">
+              <label>Distance estimée</label>
+              <select name="distance">
+                <option value="moins50">Moins de 50 km (gratuit)</option>
+                <option value="plus50">Plus de 50 km (sur devis)</option>
+              </select>
+            </div>
+          </div>
+          <input type="hidden" name="estimation_calculee" id="hidden-estimation" value="" />
+          <div class="form-group">
+            <label>Message / Informations complémentaires</label>
+            <textarea name="message" placeholder="Type de toiture, accessibilité, matériaux..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="btn-submit">Envoyer ma demande →</button>
+        </form>
+        <p class="form-note">Réponse garantie sous 24h — Devis entièrement gratuit et sans engagement</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">HEVORIS</div>
+      <div class="footer-info">
+        <p>Nettoyage de toitures & façades par drone</p>
+        <p>Auvergne-Rhône-Alpes — <a href="mailto:hevorisdrone@gmail.com">hevorisdrone@gmail.com</a></p>
+        <p class="footer-copy">© 2026 Hevoris SARL — Tous droits réservés</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">Mentions légales</a>
+        <a href="#">CGV</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ANIMATIONS SCROLL
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // MENU HAMBURGER
+    function toggleMenu() {
+      const links = document.querySelector('.nav-links');
+      const isOpen = links.style.display === 'flex';
+      if (isOpen) {
+        links.style.display = 'none';
+      } else {
+        Object.assign(links.style, {
+          display: 'flex', flexDirection: 'column', position: 'absolute',
+          top: '64px', left: '0', right: '0', background: '#fff',
+          padding: '1rem 5%', borderBottom: '1px solid rgba(55,138,221,0.18)', zIndex: '99'
+        });
+      }
+    }
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => { document.querySelector('.nav-links').style.display = 'none'; });
+    });
+
+    // CALCULATEUR
+    const TARIFS = { toiture: 7, facade: 8, preventif: 2 };
+
+    function calculer() {
+      const prestation  = document.getElementById('calc-prestation').value;
+      const surface     = parseFloat(document.getElementById('calc-surface').value);
+      const traitement  = document.getElementById('calc-traitement').checked;
+      const deplacement = document.getElementById('calc-deplacement').checked;
+      const result      = document.getElementById('calc-result');
+      const placeholder = document.getElementById('calc-placeholder');
+
+      if (!surface || surface <= 0) {
+        result.style.display = 'none';
+        placeholder.style.display = 'flex';
+        return;
+      }
+
+      let prixBase = 0, lignes = [];
+      if (prestation === 'toiture') {
+        prixBase = surface * TARIFS.toiture;
+        lignes.push(`Nettoyage toiture : ${surface} m² × ${TARIFS.toiture} €/m² = ${Math.round(surface * TARIFS.toiture)} €`);
+      } else if (prestation === 'facade') {
+        prixBase = surface * TARIFS.facade;
+        lignes.push(`Nettoyage façade : ${surface} m² × ${TARIFS.facade} €/m² = ${Math.round(surface * TARIFS.facade)} €`);
+      } else {
+        prixBase = surface * TARIFS.toiture + surface * TARIFS.facade;
+        lignes.push(`Toiture : ${surface} m² × ${TARIFS.toiture} €/m² = ${Math.round(surface * TARIFS.toiture)} €`);
+        lignes.push(`Façade : ${surface} m² × ${TARIFS.facade} €/m² = ${Math.round(surface * TARIFS.facade)} €`);
+      }
+
+      let prixTraitement = 0;
+      if (traitement) {
+        prixTraitement = surface * TARIFS.preventif;
+        lignes.push(`Traitement préventif : ${surface} m² × ${TARIFS.preventif} €/m² = ${Math.round(prixTraitement)} €`);
+      }
+
+      const prixTotal  = Math.round(prixBase + prixTraitement);
+      const estimation = `À partir de ${prixTotal} €`;
+
+      document.getElementById('calc-price').textContent  = estimation;
+      document.getElementById('calc-detail').innerHTML   = lignes.join('<br>');
+      document.getElementById('calc-note').textContent   = deplacement
+        ? '+ Frais de déplacement sur devis selon la distance'
+        : 'Déplacement gratuit jusqu\'à 50 km — Prix HT, estimation non contractuelle';
+      document.getElementById('hidden-estimation').value = estimation;
+
+      result.style.display      = 'block';
+      placeholder.style.display = 'none';
+    }
+
+    // FORMULAIRE
+    const form  = document.getElementById('devis-form');
+    const notif = document.getElementById('notif');
+    const btn   = document.getElementById('btn-submit');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      btn.textContent = 'Envoi en cours...';
+      btn.disabled    = true;
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST', body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (response.ok) {
+          notif.textContent    = '✓ Votre demande a bien été envoyée !';
+          notif.style.background = '#0C447C';
+          notif.classList.add('show');
+          form.reset();
+          document.getElementById('calc-result').style.display      = 'none';
+          document.getElementById('calc-placeholder').style.display = 'flex';
+        } else { throw new Error(); }
+      } catch {
+        notif.textContent      = '✗ Erreur — Contactez-nous à hevorisdrone@gmail.com';
+        notif.style.background = '#A32D2D';
+        notif.classList.add('show');
+      }
+
+      btn.textContent = 'Envoyer ma demande →';
+      btn.disabled    = false;
+      setTimeout(() => notif.classList.remove('show'), 5000);
+    });
+  </script>
+</body>
+</html>
